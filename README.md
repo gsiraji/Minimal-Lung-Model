@@ -23,8 +23,10 @@
 
 % VarFreqCosPmus.m is a cosine-based diaphragm pressure function with
 % variable inspiration/expiration fraction
+
 % SSvolumes.m calculates the steady-state volumes of Pel and Vc according
 % to a constant airflow (M). This code is probably irrelevant now.
+
 % test_curves_preterm.m creates the the lung and chest wall compliance curves 
 % then calculates FRC (volume) at Pel=0, which is the volume where Pchest
 % + Plung = 0 and the curves mirror each other over the P axis. The file
