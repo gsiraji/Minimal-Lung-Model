@@ -1,4 +1,4 @@
-function imageProcess(slideVec, slideIdVec,day,binIm)
+function imageProcess(slideVec, slideIdVec,day,binIm, writeT,sheetRowNum)
 
 %%
 % loop over all slide ID's and calculate stats
@@ -34,10 +34,13 @@ for slide = slideVec
         % update to do: find the day from the lookup table
 %         day = 0;
         % set the correct range for inserting table in sheet
-        range1 = strcat('A',num2str(sheetRowNum),':I',num2str(sheetRowNum));
-        Table1 = table(day, slide,slideId,fraction,r1,r2,length1,area1,width);
-        writetable(Table1, 'tissue_image_data.xlsx', 'Range',...
-            range1,'WriteVariableNames',0)
+        switch writeT
+            case 1
+                range1 = strcat('A',num2str(sheetRowNum),':I',num2str(sheetRowNum));
+                Table1 = table(day, slide,slideId,fraction,r1,r2,length1,area1,width);
+                writetable(Table1, 'tissue_image_data.xlsx', 'Range',...
+                    range1,'WriteVariableNames',0)
+        end
         % save the binary image (entropy filtered)
         switch binIm
             case 1

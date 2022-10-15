@@ -2,11 +2,13 @@
 sheetRowNum = findEmptyRow('tissue_image_data.xlsx');
 %% Main Loop
 
-slideVec = 28:29;
+slideVec = 25:27;
 slideIdVec = 1:5;
 binIm = 1;
 day = 0;
-imageProcess(slideVec, slideIdVec,day,binIm)
+writeT = 0;
+imageProcess(slideVec, slideIdVec, day,...
+    binIm, writeT, sheetRowNum)
 
 
 
