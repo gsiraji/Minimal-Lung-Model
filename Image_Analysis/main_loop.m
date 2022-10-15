@@ -1,18 +1,18 @@
 % find the first empty row in the Excel sheet
-startingIndx = findEmptyRow('tissue_image_data.xlsx');
+startingIndx = findEmptyRow('tissue_image_data.xlsx')+1;
 %%
 % loop over all slide ID's and calculate stats
-for slide = 11
+for slide = 45:47
     % loop over all images belonging to slide ID
-    for slideId = 1:2
+    for slideId = 1:5
         % +1 the index
-        processedImages = slideId+startingIndx;
+        sheetRowNum = slideId+startingIndx;
         % find the corresponding image by title
         imageTitle = strcat(num2str(slide),'-',num2str(slideId));
         try
             im1 = imread(imageTitle+".tif");
         catch
-            warning('Read all existing files.')
+            warning('Path not added or read all existing files.')
             break
         end
         % apply the entropy filter w structuring element of radius r1
@@ -32,15 +32,17 @@ for slide = 11
 
         % set the day, currently manually
         % update to do: find the day from the lookup table
-        day = 7;
+        day = 0;
         % set the correct range for inserting table in sheet
-        range1 = strcat('A',num2str(processedImages),':I',num2str(processedImages));
+        range1 = strcat('A',num2str(sheetRowNum),':I',num2str(sheetRowNum));
         Table1 = table(day, slide,slideId,fraction,r1,r2,length1,area1,width);
         writetable(Table1, 'tissue_image_data.xlsx', 'Range',...
             range1,'WriteVariableNames',0)
         % save the binary image (entropy filtered)
         save(imageTitle+".mat","imEr")
     end
+    startingIndx = sheetRowNum - 1;
+    num2str(slide)+" done"
 end
 
 
