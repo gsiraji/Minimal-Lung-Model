@@ -1,24 +1,15 @@
-% Requiv.m
+function Rmidpoint = Requiv(area1, totalArea,R_equiv)
 
-CC = bwconncomp(~imEr,8);
-
-%%
-areaCC = regionprops(CC,'Area');
-%%
-histogram(sqrt([areaCC.Area]/pi)/6.8,20)
-
-%%
-
-Requ = (sqrt([areaCC.Area]/pi)/6.8);
-
-%%
-totalArea = sum([areaCC.Area],'all');
-cmArea = cumsum([areaCC.Area]);
-
-totalArea/2;
-
-midCmArea = cmArea(and(cmArea > totalArea/2 - 15000,cmArea < totalArea/2 + 15000 ));
-Requ((cmArea == midCmArea))
-
-%%
-plot(cmArea);hold on
+% calculate the cumulative area
+cmArea = cumsum(area1);
+% calculate the half area
+midPoint = totalArea/2;
+%  % find the closest value in cumulative area % %
+% first find the distance
+distCmArea = abs(cmArea - midPoint);
+% now calculate the index for...
+% minimum which is the closest value
+[~, minIndx] = min(distCmArea,[] ,'all');
+% find the Requivalent corresponding to...
+% the midpoint in total tissue area
+Rmidpoint = R_equiv(minIndx);
