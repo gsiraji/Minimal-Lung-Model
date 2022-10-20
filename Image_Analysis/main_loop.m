@@ -1,14 +1,17 @@
 % find the first empty row in the Excel sheet
-sheetRowNum = findEmptyRow('tissue_image_data.xlsx');
+sheetRowNum = 213;% findEmptyRow('tissue_image_data.xlsx');
+addpath("/Users/tfai/Documents/research_misc/wimb2022/images/MLI_old_tiff/MLI_old_D7")
 %% Main Loop
 
-slideVec = 25:27;
+slideVec = 15:20;
 slideIdVec = 1:5;
-binIm = 1;
+N = 10;
+
+
 day = 0;
-writeT = 0;
+writeT = 1;
 imageProcess(slideVec, slideIdVec, day,...
-    binIm, writeT, sheetRowNum)
+    writeT, sheetRowNum, N)
 
 
 

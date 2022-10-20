@@ -1,7 +1,7 @@
 rowNum = 1;
 slideVec = 35;
 slideIdVec = [1];
-N = 13;
+N = 10;
 for slide = slideVec
     for slideId = slideIdVec
         imageTitle = strcat(num2str(slide),'-',num2str(slideId));
@@ -17,10 +17,13 @@ for slide = slideVec
 
         areas=ones(N,1);
         areas(1,1)=bwarea(im1);
-        for i=11:N
+        for i=2:N
             areas(i,1)=bwarea(imdilate(imerode(im1,strel("disk",round(6.8*5*i))),strel("disk",round(6.8*5*i))))
         end
 %         plot(areas)
+
+ 
+
 
 
         range1 = strcat('A',num2str(rowNum),':L',num2str(rowNum));
