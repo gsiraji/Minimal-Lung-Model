@@ -1,12 +1,11 @@
-function imageProcess(slideVec, slideIdVec, day, writeT,doFilter, sheetRowNum, N)
+function imageProcess(slideVec, slideIdVec, day, writeT,doFilter, sheetRowNum, N,lengths)
 %%% commented out areas
 %%
 % loop over all slide ID's and calculate stats
 for slide = slideVec
     % loop over all images belonging to slide ID
     for slideId = slideIdVec
-        % +1 the index
-        sheetRowNum = 1+sheetRowNum;
+        
         % find the corresponding image by title
         imageTitle = strcat(num2str(slide),'-',num2str(slideId));
         
@@ -27,7 +26,11 @@ for slide = slideVec
                 end
 
         end
+
+        % +1 the index
+        sheetRowNum = 1+sheetRowNum;
         
+
         % apply the entropy filter w structuring element of radius r1
         r1= 34; %5um
         switch doFilter
@@ -38,30 +41,29 @@ for slide = slideVec
         area1 = sum(im1,'all');
         fraction = area1/numel(im1) ;
         % create the skeleton to calculate the length1 of the centerline
-        imSk = bwskel(im1);
-        length1 = sum(imSk,'all');
+%         imSk = bwskel(im1);
+        length1 = lengths(sheetRowNum-1);
+%         length1 = sum(imSk,'all');
         % calculate the width from TFA and centerline length
         width = area1/length1;
 
         CC = bwconncomp(~im1,8);
-        % calculate the area of each connected component
-        areaCC = regionprops(CC,'Area');
-        areaFiltered = [areaCC.Area];
-        areaFiltered = (areaFiltered > (pi*(34*4)^2)); %20 um
-        % calculate the total area 
-        totalArea = sum([areaCC.Area],'all');
+
+        Thresh = 0;% (pi*(34*4)^2);
+        
 
         % % calculate the stored statistics % %
         % how many components/lumens
-        number_of_lumens = length(areaFiltered);
+        % calculate the area of each connected component
+        [number_of_lumens, totalArea, areaList] = count_lumens(CC,Thresh);
 
         % calculate the mean equivalent radius
-        R_equiv = sqrt(areaFiltered/pi)/6.8;
+        R_equiv = sqrt(areaList/pi)/6.8;
         meanR_equiv = mean(mean(R_equiv));
 
         % calculate the radius corresponding...
         % to the midpoint in total area
-        Rmidpoint = Requiv(areaFiltered, totalArea,R_equiv);
+        Rmidpoint = Requiv(areaList, totalArea,R_equiv);
 
         % calculate a measure of crimpiness
         T_tilde = (length1/number_of_lumens)^2/(pi*totalArea/number_of_lumens);
@@ -77,8 +79,8 @@ for slide = slideVec
         % set the correct range for inserting table in sheet
         switch writeT
             case 1
-                range1 = strcat('A',num2str(sheetRowNum),':V',num2str(sheetRowNum));
-                Table1 = table(day, slide,slideId,fraction,r1,...
+                range1 = strcat('B',num2str(sheetRowNum),':V',num2str(sheetRowNum));
+                Table1 = table(day, slide,slideId,fraction,...
                     length1,width,number_of_lumens,meanR_equiv,Rmidpoint,T_tilde,areas');
                 writetable(Table1, 'tissue_image_corrected_lumens.xlsx', 'Range',...
                     range1,'WriteVariableNames',0)
