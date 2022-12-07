@@ -58,7 +58,7 @@ for slide = slideVec
         [number_of_lumens, totalArea, areaList] = count_lumens(CC,Thresh);
 
         % calculate the mean equivalent radius
-        R_equiv = sqrt(areaList/pi)/6.8;
+        R_equiv = sqrt(areaList/pi); %/6.8;
         meanR_equiv = mean(mean(R_equiv));
 
         % calculate the radius corresponding...
@@ -69,8 +69,8 @@ for slide = slideVec
         T_tilde = (length1/number_of_lumens)^2/(pi*totalArea/number_of_lumens);
 
         % calculate the area of the widest tissue sections
-%         areas = pruningAreas(im1,N);
-          areas = zeros(N,1);   
+        areas = pruningAreas(im1,N);
+%           areas = zeros(N,1);   
         % % Save Data: Table and Binary Image  % %
 
         % set the day, currently manually
@@ -82,7 +82,7 @@ for slide = slideVec
                 range1 = strcat('B',num2str(sheetRowNum),':V',num2str(sheetRowNum));
                 Table1 = table(day, slide,slideId,fraction,...
                     length1,width,number_of_lumens,meanR_equiv,Rmidpoint,T_tilde,areas');
-                writetable(Table1, 'tissue_image_corrected_lumens.xlsx', 'Range',...
+                writetable(Table1, 'tissue_image_corrected_R.xlsx', 'Range',...
                     range1,'WriteVariableNames',0)
         end
         % save the binary image (entropy filtered)
