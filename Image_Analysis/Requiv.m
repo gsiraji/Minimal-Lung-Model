@@ -1,7 +1,9 @@
 function Rmidpoint = Requiv(area1, totalArea,R_equiv)
 
 % calculate the cumulative area
-cmArea = cumsum(area1);
+[area,indx] = sort(area1);
+R_equiv = R_equiv(indx);
+cmArea = cumsum(area);
 % calculate the half area
 midPoint = totalArea/2;
 %  % find the closest value in cumulative area % %
