@@ -30,9 +30,13 @@ for slide = slideVec
         % calculate the area of each connected component
         [~, ~, areaList] = count_lumens(CC,Thresh);
         
+        % number of interior lumens
         num_int_lumens = length(inLumens);
+        % number of interior lumens + (1/2) exterior lumens
         num_int_lumens_p_half_ext = length(inLumens)+length(exLumens)/2;
+        % the area of each interior lumen
         areaList_int = areaList(inLumens);
+        % the total area of all interior lumens
         total_int_area = sum(areaList_int,"all");
         % calculate the mean equivalent radius
         R_equiv_int = sqrt(areaList_int/pi); %/6.8;
@@ -42,12 +46,15 @@ for slide = slideVec
         % to the midpoint in total area
         Rmidpoint_int = Requiv(areaList_int, total_int_area,R_equiv_int);
         
+        % calculate a measure of crimpiness
         circularity = regionprops(CC,'Circularity');
         T_int = ones(1,num_int_lumens);
         for k = 1:num_int_lumens
+            % the tortuosity is the inverse of 'circularity'
+            % Perimeter^2/(4 pi Area)
             T_int(k) = 1./circularity(inLumens(k),1).Circularity;
         end
-        % calculate a measure of crimpiness
+        % calculate the mean lumen toruosity
         T_int = mean(T_int);
 
 
