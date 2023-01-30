@@ -10,6 +10,8 @@
 %     is Pixel Index List for exterior lumens 
 %    
 %     inLumens - CC index of interior lumens 
+%
+% by Gess Kelly (2023) for WiMB project
 
 
 
@@ -28,30 +30,19 @@ inLumens = zeros(1,CC.NumObjects);
 
 % iterate over all objects in CC
 for k = 1:CC.NumObjects
-    k1 = 0;
+    
+    % create an array of pixel indices of the kth object
     PixelList=CC.PixelIdxList{1,k};
-%     for indx = ind'
-%         
-%        edgePix = find(PixelList == indx,1);
-%        if ~isempty(edgePix)
-%           exLumens = [exLumens;k];
-%           k1 = 1; 
-%           break
-%        end
-% 
-%     end
     
     % see if any exterior pixel indices belong to PixelList
     C = intersect(PixelList,ind);
     % add the lumen indx to exLumens if it has boundary pixels
     if ~isempty(C)
         exLumens = [exLumens;k];
-        k1 = 1; 
-    end
-
-    if k1 == 0
+    else
         inLumens = [inLumens;k];
     end
+
 end
 % remove the zero elements from output arrays
 inLumens = nonzeros(inLumens);
