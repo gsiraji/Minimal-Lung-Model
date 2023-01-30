@@ -22,7 +22,7 @@ function [exLumens,inLumens] = findExteriorLumens(CC)
 rows = CC.ImageSize(1,1);
 cols = CC.ImageSize(1,2);
 indices = [[ones(cols,1),(1:cols)'];[ones(cols,1).*(rows-1),(1:cols)'];[(1:rows)',ones(rows,1)];[(1:rows)',ones(rows,1).*(cols-1)]];
-ind = sub2ind(size(im1),indices(:,1),indices(:,2));
+ind = sub2ind(CC.ImageSize,indices(:,1),indices(:,2));
 
 % initiate the index vectors
 exLumens = zeros(1,CC.NumObjects);
@@ -38,12 +38,17 @@ for k = 1:CC.NumObjects
     C = intersect(PixelList,ind);
     % add the lumen indx to exLumens if it has boundary pixels
     if ~isempty(C)
-        exLumens = [exLumens;k];
+        exLumens(k) = k;
     else
-        inLumens = [inLumens;k];
+        inLumens(k) = k;
     end
 
+
 end
+
+% skip all for loops entirely & store as logical indices
+%exLumens = cellfun(@(x) isempty(intersect(x,ind)),CC.PixelIdxList,'UniformOutput',false);
+
 % remove the zero elements from output arrays
 inLumens = nonzeros(inLumens);
 exLumens = nonzeros(exLumens);
