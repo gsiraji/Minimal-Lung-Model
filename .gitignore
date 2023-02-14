@@ -1,0 +1,8 @@
+
+Image_Analysis/Archive/.DS_Store
+Image_Analysis/binaryImages/.DS_Store
+*.tif
+*.mat
+*.fig
+Image_Analysis/.Rhistory
+.DS_Store
