@@ -1,4 +1,4 @@
-function imageProcess(slideVec, slideIdVec, day, writeT,doFilter, sheetRowNum, N,lengths)
+function imageProcess(slideVec, slideIdVec, day, writeT,doFilter, sheetRowNum, N)
 %%% commented out areas
 %%
 % loop over all slide ID's and calculate stats
@@ -41,9 +41,9 @@ for slide = slideVec
         area1 = sum(im1,'all');
         fraction = area1/numel(im1) ;
         % create the skeleton to calculate the length1 of the centerline
-%         imSk = bwskel(im1);
-        length1 = lengths(sheetRowNum-1);
-%         length1 = sum(imSk,'all');
+        imSk = bwskel(im1);
+%         length1 = lengths(sheetRowNum-1);
+        length1 = sum(imSk,'all');
         % calculate the width from TFA and centerline length
         width = area1/length1;
 
@@ -82,7 +82,7 @@ for slide = slideVec
                 range1 = strcat('B',num2str(sheetRowNum),':V',num2str(sheetRowNum));
                 Table1 = table(day, slide,slideId,fraction,...
                     length1,width,number_of_lumens,meanR_equiv,Rmidpoint,T_tilde,areas');
-                writetable(Table1, 'tissue_image_corrected_R.xlsx', 'Range',...
+                writetable(Table1, 'image_data_complete_oldMLI.xlsx', 'Range',...
                     range1,'WriteVariableNames',0)
         end
         % save the binary image (entropy filtered)

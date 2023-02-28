@@ -1,4 +1,5 @@
 
+<<<<<<< Updated upstream
 Image_Analysis/Archive/.DS_Store
 Image_Analysis/binaryImages/.DS_Store
 *.tif
@@ -6,3 +7,20 @@ Image_Analysis/binaryImages/.DS_Store
 *.fig
 Image_Analysis/.Rhistory
 .DS_Store
+=======
+Image_Analysis/.Rhistory
+Image_Analysis/.DS_Store
+.DS_Store
+Image_Analysis/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+Image_Analysis/.DS_Store
+*.tif
+*.mat
+*.fig
+>>>>>>> Stashed changes
+*.asv
+*.zip
+Image_Analysis/~$interior_lumens_stats.xlsx
+Image_Analysis/~$cat_sum_inf_opt.xlsx
+*.jpeg
+*.asv
+*.py~

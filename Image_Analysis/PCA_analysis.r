@@ -3,24 +3,31 @@ library(readxl)
 library(tidyverse)
 library(writexl)
 
-#### set working directory ####
-
-setwd("/Users/tfai/Documents/GitHub/Minimal-Lung-Model/Image_Analysis")
-
-df = read_excel("image_data_complete_oldMLI.xlsx")
+#### read the excel sheet containing the summary statistics of the optimization results and inflammation metrics ####
 
 
-res.pca <- PCA(df[5:11])
+
+df = read_excel("cat_sum_inf_opt.xlsx")
+
+data(tea)
+
+res.pca <- PCA(df[4:20])
 summary(res.pca)
+
+res.mca = MCA(df[,4:20], graph=TRUE)
+res.hcpc = HCPC(res.pca)
 
 library("factoextra")
 eig.val <- get_eigenvalue(res.pca)
 
+res.hcpc$desc.var$test.chi2
+res.hcpc$desc.var$category
+
 eig.val
 fviz_pca_ind(res.pca,
              geom.ind = "point", # show points only (nbut not "text")
-             col.ind = df$Ventilation, # color by groups
-             palette = c("#00AFBB", "#E7B800","#FC4E07","#868686FF"),
+             col.ind = df$group, # color by groups
+             palette = c("#00AFBB", "#E7B800","#FC4E07","#868686FF","#5E3C99","#FDB863"),
              addEllipses = TRUE, # Concentration ellipses
              legend.title = "Groups"
 )
@@ -43,3 +50,4 @@ fviz_pca_ind(res.pca,
 )
 
 
+citation(package = "FactoMineR")

@@ -9,8 +9,10 @@ setwd("/Users/tfai/Documents/GitHub/Minimal-Lung-Model/Image_Analysis")
 #### get the image data table and look-up table ####
 image_data_table <- read_excel("image_data_complete_oldMLI.xlsx",sheet ="data" , range = "A1:U425")
 
+C_table <- read_excel("rat_data.xlsx")
+
 # store look-up table #
-lookupTable <- read_excel("Archive/tissue_im_test.xlsx",sheet ="MLI_old" , range = "B1:G48")
+lookupTable <- read_excel("Archive/tissue_im_test.xlsx",sheet ="MLI_old" , range = "A1:G48")
 
 
 #### rearrange, relabel, and organize the look-up table ####
@@ -22,8 +24,10 @@ colnames(lookupTable)[5] <- "MLI (um)"
 colnames(lookupTable)[1] <- "day"
 lookupTable$day <- sub("D","",lookupTable$day)
 
+
+
 #### remove NA rows ####
-lookupTable <- lookupTable[-c(48:nrow(lookupTable)),]
+completeTable <- completeTable[-c(48:nrow(lookupTable)),]
 
 #### remove NA rows and order by day and slide ####
 orderedDataTable<-image_data_table[order(image_data_table['day'],
@@ -44,14 +48,19 @@ completeTable <- completeTable %>%           # Reorder data frame
   dplyr::select("indx", everything())
 completeTable<-completeTable[order(completeTable['indx']),]
 
-
+testDataTable <- right_join(agg_tbl, completeTable0, by = "slide")
 
 #completeTable["AN Tx"] <- completeTable["AN Tx"].tissue_image_data %?% completeTable["AN Tx"].lookupTable2
 #### ####
 completeTable <- table1[table2, on = "slide"]
 
 # ####
-completeTable <- left_join(table1,table2, on = "slide")
+completeTable <- left_join(table,table2, on = "slide")
 
 
-write_xlsx(completeTable,"/Users/tfai/Documents/GitHub/Minimal-Lung-Model/Image_Analysis/image_data_complete_oldMLI.xlsx")
+day0 <- image_data_0 %>%                               # Summary by group using dplyr
+  group_by(slide) %>% 
+  summarize(R_equiv = mean(R_equiv))
+
+
+write_xlsx(completeTable,"/Users/tfai/Documents/GitHub/Minimal-Lung-Model/Image_Analysis/rat_data_w_slide.xlsx")
