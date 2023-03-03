@@ -1,6 +1,27 @@
 # Minimal-Lung-Model
 
-%%% necessary codes
+## Image Analysis
+
+README under progress
+
+Image processing scripts calculate the parameters of interest as outlined in the manuscript TBA
+
+The analysis scripts look for meaningful associations in the calculated and measured data
+
+
+## Minimal Model
+
+The mechanistic model to be added
+
+## Morris Sensitivity
+
+Sensitivity scripts to be added
+
+## Optimization 
+
+scripts to be added
+
+<!-- %%% necessary codes
 
 % driver.m runs the whole code
 
@@ -31,3 +52,5 @@
 % then calculates FRC (volume) at Pel=0, which is the volume where Pchest
 % + Plung = 0 and the curves mirror each other over the P axis. The file
 % PVcurves.mat stores these curves and FRC information.
+
+-->
