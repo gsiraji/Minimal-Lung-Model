@@ -1,5 +1,5 @@
 function imageProcess(slideVec, slideIdVec, day, writeT,doFilter, sheetRowNum, N)
-%%% commented out areas
+
 %%
 % loop over all slide ID's and calculate stats
 for slide = slideVec
@@ -27,7 +27,7 @@ for slide = slideVec
 
         end
 
-        % +1 the index
+        % set the row index for where the tables will be written to
         sheetRowNum = 1+sheetRowNum;
         
 
@@ -70,12 +70,9 @@ for slide = slideVec
 
         % calculate the area of the widest tissue sections
         areas = pruningAreas(im1,N);
-%           areas = zeros(N,1);   
+   
         % % Save Data: Table and Binary Image  % %
 
-        % set the day, currently manually
-        % update to do: find the day from the lookup table
-%         day = 0;
         % set the correct range for inserting table in sheet
         switch writeT
             case 1
@@ -85,6 +82,7 @@ for slide = slideVec
                 writetable(Table1, 'image_data_complete_oldMLI.xlsx', 'Range',...
                     range1,'WriteVariableNames',0)
         end
+
         % save the binary image (entropy filtered)
         switch doFilter
             case 1

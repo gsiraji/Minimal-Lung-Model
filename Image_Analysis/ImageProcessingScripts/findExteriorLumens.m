@@ -43,7 +43,6 @@ for k = 1:CC.NumObjects
         inLumens(k) = k;
     end
 
-
 end
 
 % skip all for loops entirely & store as logical indices
