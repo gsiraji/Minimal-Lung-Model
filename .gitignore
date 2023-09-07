@@ -24,3 +24,5 @@ Image_Analysis/~$cat_sum_inf_opt.xlsx
 *.jpeg
 *.asv
 *.py~
+Image_Analysis/Analysis/.Rhistory
+Image_Analysis/PCA.eps
