@@ -2,17 +2,21 @@ library("FactoMineR")
 library(readxl)
 library(tidyverse)
 library(writexl)
-
+library(latex2exp)
 #### read the excel sheet containing the summary statistics of the optimization results and inflammation metrics ####
 
 
 
-df = read_excel("cat_sum_inf_opt.xlsx")
-
-data(tea)
+df = read_excel("Archive/cat_sum_inf_opt.xlsx")
 
 res.pca <- PCA(df[4:20])
 summary(res.pca)
+
+> coord_data =  res.pca[["var"]][["coord"]]
+> write.csv(coord_data, "coord.csv", row.names=FALSE)
+
+fviz_pca_var(res.pca, col.var = "black")
+
 
 res.mca = MCA(df[,4:20], graph=TRUE)
 res.hcpc = HCPC(res.pca)
